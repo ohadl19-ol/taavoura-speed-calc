@@ -304,6 +304,150 @@
     margin-bottom: 10px;
   }
 
+  /* Sentencing card (court cases only) */
+  .sentence-card {
+    background: #f3effc;
+    border: 1.5px solid #c9b8ef;
+    border-radius: 14px;
+    padding: 16px 16px 12px;
+    margin-bottom: 10px;
+  }
+
+  .sentence-card .sentence-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #3d1f75;
+    margin-bottom: 2px;
+  }
+
+  .sentence-card .sentence-source {
+    font-size: 10.5px;
+    color: #8a76b8;
+    margin-bottom: 10px;
+  }
+
+  .sentence-disclaimer {
+    background: #fff8e0;
+    border: 1px solid #f0c850;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 11.5px;
+    color: #7a5000;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .sentence-framework {
+    font-size: 11px;
+    color: #5c4a86;
+    line-height: 1.75;
+    margin: 0 0 10px 0;
+    padding-right: 16px;
+  }
+
+  .sentence-range {
+    font-size: 18px;
+    font-weight: 800;
+    color: #3d1f75;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .sentence-range .sentence-range-note {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #8a76b8;
+    margin-top: 4px;
+  }
+
+  .sentence-gap {
+    font-size: 12.5px;
+    color: #5c4a86;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+
+  .sentence-scenario {
+    background: #ffffff;
+    border: 1px dashed #c9b8ef;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 11.5px;
+    color: #4a2d82;
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+
+  .sentence-scenario b { color: #3d1f75; }
+  .sentence-scenario .scenario-tag {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #8a76b8;
+    margin-bottom: 4px;
+  }
+
+  .sentence-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #3d1f75;
+    margin-bottom: 8px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .sentence-toggle input {
+    width: 17px;
+    height: 17px;
+    accent-color: #6b3fb8;
+    flex-shrink: 0;
+  }
+
+  details.sentence-detail {
+    border-top: 1px dashed #c9b8ef;
+    padding-top: 4px;
+  }
+
+  details.sentence-detail summary {
+    font-size: 12px;
+    font-weight: 700;
+    color: #3d1f75;
+    cursor: pointer;
+    padding: 6px 2px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  details.sentence-detail summary::-webkit-details-marker { display: none; }
+  details.sentence-detail summary::after { content: '▾'; font-size: 10px; }
+  details.sentence-detail[open] summary::after { content: '▴'; }
+
+  .sentence-detail-body {
+    font-size: 11px;
+    color: #5c4a86;
+    line-height: 1.8;
+    padding: 2px 4px 10px;
+  }
+
+  .sentence-detail-body b { color: #3d1f75; }
+  .sentence-detail-body ul, .sentence-detail-body ol { padding-right: 16px; margin: 4px 0; }
+  .sentence-detail-body a { color: #6b3fb8; }
+
   /* Footer */
   footer {
     text-align: center;
@@ -436,7 +580,102 @@ const TABLE = {
 
 const PROC_NAME = { bk:'ברירת קנס', hzd:'הזמנה לדין', tltn:'תלת"ן', bkh:'העברה לבוחנים (פ.ל)' };
 
+// ===== מתחם ענישה לעבירות מהירות שהגיעו להזמנה לדין (proc !== 'bk') =====
+// חשוב: אין מחירון ענישה מחייב לעבירות אלו. הטווחים הבאים הם כלי עבודה
+// למחקר ולהערכת הסדר בלבד ואינם מהווים התחייבות לעמדת התביעה או לתוצאה שיפוטית.
+
+const URBAN_ROADS = ['urban50', 'urban426'];
+
+const SENTENCE_DISCLAIMER = 'עבירת מהירות מסוג הזמנה לדין אינה כפופה למחירון ענישה מחייב. התוצאה נקבעת בעיקר לפי גובה החריגה, סוג הדרך, עבר תעבורתי, ותק נהיגה, פסילה מותנית קיימת, נסיבות הביצוע וקשיים ראייתיים. הכלים שלהלן הם עזר למחקר ולהערכת הסדר בלבד — אינם התחייבות לעמדת התביעה או לתוצאה שיפוטית בתיק מסוים.';
+
+const LEGAL_FRAMEWORK = [
+  'העבירה מבוססת על תקנה 54(א) לתקנות התעבורה.',
+  'בית המשפט רשאי להטיל קנס, פסילה בפועל, פסילה על תנאי והתחייבות; בנסיבות חמורות או בצירוף עבירות נוספות עשויים להתווסף רכיבי מאסר.',
+  'לצד ההזמנה לדין קיימת סמכות לשימוע ולפסילה מנהלית בת 30 יום במקרים המתאימים.',
+  'ניקוד ההרשעה נגרר מכוח הסעיף — בית המשפט אינו מוחק נקודות בנפרד מן ההרשעה.',
+];
+
+// מתחם מספרי לפי הנחיית ראש חטיבת התביעות 01.01.01, נוסח 8 (17/09/2025)
+// [minExcess, maxExcess, minMonths, maxMonths, note]
+const SENTENCE_URBAN = [
+  [41, 45, 2, 2,  'הפסילה בפועל בת 2 חודשים; יתרת הענישה על תנאי'],
+  [46, 50, 2, 6,  ''],
+  [51, 55, 3, 12, ''],
+  [56, 75, 6, 18, ''],
+];
+
+const SENTENCE_NONURBAN = [
+  [51, 55, 2, 2,  'הפסילה בפועל בת 2 חודשים; יתרת הענישה על תנאי'],
+  [56, 60, 2, 6,  ''],
+  [61, 70, 3, 12, ''],
+  [71, 80, 6, 18, ''],
+];
+
+const SENTENCE_EXTREME = { prisonMax: 12, disqYearsMax: 5 };
+
+// דוגמאות תרחיש מטבלת "ענישה והסדרים – עבירות מהירות מסוג הזמנה לדין" (מסמך עבודה פנימי)
+// road: 'urban' | 'nonurban' — לצורך התאמה לקטגוריית הכביש שנבחרה במחשבון
+const SCENARIOS = [
+  { road: 'urban',    example: '91 במקום 50',  excess: 41, severity: 'סף הזמנה לדין בעיר',
+    punishment: 'קנס, פסילה מותנית; לעיתים פסילה קצרה או הסתפקות בפסילה המנהלית',
+    deal: 'תיקון למדרגת קנס; או קנס ותנאי ללא פסילה נוספת, כשעבר נקי והתיק מתאים' },
+  { road: 'urban',    example: '101 במקום 50', excess: 51, severity: 'בינונית–גבוהה',
+    punishment: 'קנס, תנאי ופסילה בפועל מימים עד חודשים',
+    deal: 'פסילה מוסכמת קצרה בניכוי הפסילה המנהלית; תיקון מהירות אם יש קושי ראייתי' },
+  { road: 'nonurban', example: '141 במקום 90', excess: 51, severity: 'סף הזמנה לדין מחוץ לעיר',
+    punishment: 'קנס, תנאי ואפשרות לפסילה קצרה',
+    deal: 'תיקון ל-140 במקום 90 עשוי להעביר למדרגת קנס של 1,500 ₪ ו-10 נקודות' },
+  { road: 'nonurban', example: '151 במקום 90', excess: 61, severity: 'גבוהה',
+    punishment: 'פסילה של שבועות עד מספר חודשים, קנס ותנאי',
+    deal: 'קביעת תקופת פסילה מוסכמת; ניכוי פסילה מנהלית; צמצום החריגה המתוארת' },
+  { road: 'nonurban', example: '162 במקום 100', excess: 62, severity: 'גבוהה מאוד',
+    punishment: 'מספר חודשי פסילה, קנס ותנאי',
+    deal: 'הסדר סגור או טווח ענישה מוסכם; במקרים ישנים בפסיקה אושר גם הסדר של שישה חודשי פסילה' },
+  { road: 'nonurban', example: '170 במקום 90', excess: 80, severity: 'קיצונית',
+    punishment: 'פסילה ממושכת, קנס, תנאי והתחייבות; אפשרות למאסר מותנה בנסיבות מחמירות',
+    deal: 'מיקוד בצמצום הפסילה, מניעת מאסר והסרת סעיפים נלווים; קנס בלבד אינו יעד רגיל' },
+];
+
+const MITIGATING = [
+  'עבר נקי או ותק נהיגה משמעותי',
+  'חריגה הקרובה לסף ההזמנה לדין',
+  'הודאה מוקדמת, נטילת אחריות וחיסכון בזמן שיפוטי',
+  'פסילה מנהלית שכבר רוצתה',
+  'קושי בכיול, בהפעלה, בזיהוי, בקשר עין או בתיעוד',
+  'צורך תעסוקתי מוכח, ככל שאינו גובר על המסוכנות',
+];
+
+const AGGRAVATING = [
+  'מהירות קיצונית או מהירות גבוהה בדרך עירונית',
+  'עבר דומה, פסילה מותנית בתוקף או ענישה קודמת שלא הרתיעה',
+  'נהג חדש או ותק קצר',
+  'תנועה צפופה, הולכי רגל, נוסעים או תנאי דרך מסוכנים',
+  'עבירות נלוות, תאונה או נהיגה בזמן פסילה',
+];
+
+const DEAL_TYPES = [
+  'תיקון המהירות אל מתחת לסף ההזמנה לדין, כשקיימת הצדקה ראייתית',
+  'הסתפקות בפסילה המנהלית שכבר רוצתה',
+  'פסילה קצרה ומוסכמת לצד קנס ופסילה מותנית',
+  'הסדר טווח: התביעה עותרת עד תקרה מסוימת וההגנה רשאית לעתור לפחות',
+  'תיקון סעיף האישום לעבירה אחרת — רק כשחומר הראיות מצדיק זאת',
+  'הסרת עבירות נלוות או הימנעות ממאסר מותנה תמורת פסילה משמעותית יותר',
+];
+
+// [ציטוט, תקציר, קישור לפסק הדין (רשות)]
+const SENTENCE_CASES = [
+  ['רע"פ 3503/15', 'עבירות מהירות הן תופעה רחבה המצדיקה ענישה מחמירה ומרתיעה — "מכת מדינה"', 'https://www.nevo.co.il/psika_html/elyon/15035030-i03.htm'],
+  ['תת"ע 6600-02-12', 'מהירות מופרזת מצדיקה ענישה ממשית ואף מחמירה בשל הסיכון למשתמשי הדרך', 'https://www.nevo.co.il/psika_html/taabura/ST-12-02-6600-464.htm'],
+  ['עפ"ת 25708/05/12', 'חריגה 56 קמ"ש (146 במקום 90) — 6 חודשי פסילה'],
+  ['רע"פ 1808/10', 'חריגה 67 קמ"ש (157 במקום 90) — 16 חודשי פסילה, ללא עבר מכביד'],
+  ['תת"ע 8963/05/17', 'חריגה מעל 70 קמ"ש — מתחם 1.5–5 שנות פסילה'],
+  ['ע"פ 2842/10 קלדרון', 'עבר תעבורתי והקלה קודמת שלא הרתיעה עשויים לפעול לחומרה', 'https://www.nevo.co.il/psika_html/elyon/10028420-h02.htm'],
+  ['ע"פ 2247/10 ימיני', 'כיבוד הסדרי טיעון וגבולות ההתערבות — נסיבותיו חמורות בהרבה מעבירת מהירות רגילה', 'https://www.nevo.co.il/psika_html/elyon/10022470-e06.htm'],
+];
+
 let selectedRoad = null;
+let lastCalc = null;   // { road, excess, speedVal }
+let aggravated = false;
 
 function selectRoad(btn) {
   document.querySelectorAll('.road-btn').forEach(b => b.classList.remove('selected'));
@@ -512,6 +751,9 @@ function calculate() {
 
   const [minE, maxE, section, fine, points, proc, subNotes] = band;
 
+  lastCalc = { road: selectedRoad, excess, speedVal };
+  aggravated = false;
+
   const procClass = `proc-${proc}`;
 
   const noFineHtml = (proc !== 'bk')
@@ -558,6 +800,127 @@ function calculate() {
     </div>
 
     ${warnHtml}
+
+    <div id="sentenceBox"></div>
+  `;
+
+  if (proc !== 'bk') renderSentenceCard();
+}
+
+function findSentenceBand(road, excess) {
+  const bands = URBAN_ROADS.includes(road) ? SENTENCE_URBAN : SENTENCE_NONURBAN;
+  for (const b of bands) {
+    if (excess >= b[0] && excess <= b[1]) return b;
+  }
+  return null;
+}
+
+function findNearestScenario(road, excess) {
+  const cat = URBAN_ROADS.includes(road) ? 'urban' : 'nonurban';
+  const pool = SCENARIOS.filter(s => s.road === cat);
+  if (!pool.length) return null;
+  return pool.reduce((best, s) =>
+    Math.abs(s.excess - excess) < Math.abs(best.excess - excess) ? s : best
+  );
+}
+
+function fmtMonths(min, max) {
+  const unit = (n) => n === 1 ? 'חודש פסילה' : 'חודשי פסילה';
+  return min === max ? `${min} ${unit(min)}` : `${min}–${max} ${unit(max)}`;
+}
+
+function fmtYears(n) {
+  return n === 1 ? '1 שנת פסילה' : `${n} שנות פסילה`;
+}
+
+function toggleAggravated(el) {
+  aggravated = el.checked;
+  renderSentenceCard();
+}
+
+function renderSentenceCard() {
+  const box = document.getElementById('sentenceBox');
+  if (!box || !lastCalc) return;
+
+  const { road, excess, speedVal } = lastCalc;
+  const isExtreme = excess >= 100 || speedVal >= 200;
+  const mult = aggravated ? 2 : 1;
+
+  let rangeHtml = '', gapHtml = '';
+
+  if (isExtreme) {
+    const prisonMax = SENTENCE_EXTREME.prisonMax * mult;
+    const disqMax = SENTENCE_EXTREME.disqYearsMax * mult;
+    rangeHtml = `עד ${prisonMax} חודשי מאסר בפועל<br>עד ${fmtYears(disqMax)}
+      <span class="sentence-range-note">בתוספת מאסר על תנאי, פסילה על תנאי וקנס</span>`;
+  } else {
+    const band = findSentenceBand(road, excess);
+    if (!band) {
+      gapHtml = `<div class="sentence-gap">לחריגה של ${excess} קמ"ש אין טווח מספרי מפורש בהנחיה (${URBAN_ROADS.includes(road) ? 'עירוני' : 'בין-עירוני'}) — יש להפעיל שיקול דעת ביחס למתחמים הסמוכים ולדוגמה שלהלן.</div>`;
+    } else {
+      const [, , minM, maxM, note] = band;
+      rangeHtml = `${fmtMonths(minM * mult, maxM * mult)}
+        <span class="sentence-range-note">בתוספת פסילה על תנאי וקנס מרתיע${note ? ' · ' + note : ''}</span>`;
+    }
+  }
+
+  const scenario = findNearestScenario(road, excess);
+  const scenarioHtml = scenario ? `
+    <div class="sentence-scenario">
+      <span class="scenario-tag">דוגמה קרובה מטבלת הסדרים · ${scenario.severity}</span>
+      <b>${scenario.example}</b> (חריגה ${scenario.excess} קמ"ש)<br>
+      ענישה מעשית אפשרית: ${scenario.punishment}<br>
+      כיוון להסדר: ${scenario.deal}
+    </div>
+  ` : '';
+
+  box.innerHTML = `
+    <div class="sentence-card">
+      <div class="sentence-title">⚖️ עבירת הזמנה לדין — הערכת ענישה / הסדר</div>
+      <div class="sentence-source">תקנה 54(א) לתקנות התעבורה · אין מחירון ענישה מחייב</div>
+
+      <div class="sentence-disclaimer">${SENTENCE_DISCLAIMER}</div>
+
+      ${rangeHtml ? `<div class="sentence-range">${rangeHtml}
+        <span class="sentence-range-note" style="margin-top:8px">טווח מספרי לפי הנחיית רח"ט תביעות 01.01.01, נוסח 8 (17/09/2025)</span></div>` : ''}
+      ${gapHtml}
+
+      <label class="sentence-toggle">
+        <input type="checkbox" onchange="toggleAggravated(this)" ${aggravated ? 'checked' : ''}>
+        נסיבות מחמירות (כפל המתחם המספרי)
+      </label>
+
+      ${scenarioHtml}
+
+      <details class="sentence-detail">
+        <summary>המסגרת המשפטית</summary>
+        <div class="sentence-detail-body"><ul>${LEGAL_FRAMEWORK.map(t => `<li>${t}</li>`).join('')}</ul></div>
+      </details>
+
+      <details class="sentence-detail">
+        <summary>שיקולים לקביעת עמדת הסדר</summary>
+        <div class="sentence-detail-body">
+          <b>לקולה:</b>
+          <ul>${MITIGATING.map(t => `<li>${t}</li>`).join('')}</ul>
+          <b>לחומרה:</b>
+          <ul>${AGGRAVATING.map(t => `<li>${t}</li>`).join('')}</ul>
+        </div>
+      </details>
+
+      <details class="sentence-detail">
+        <summary>סוגי הסדרים שניתן לשקול</summary>
+        <div class="sentence-detail-body"><ol>${DEAL_TYPES.map(t => `<li>${t}</li>`).join('')}</ol></div>
+      </details>
+
+      <details class="sentence-detail">
+        <summary>פסיקה ועקרונות</summary>
+        <div class="sentence-detail-body sentence-cases">
+          ${SENTENCE_CASES.map(([cite, txt, url]) =>
+            `<b>${url ? `<a href="${url}" target="_blank" rel="noopener">${cite}</a>` : cite}</b> — ${txt}`
+          ).join('<br>')}
+        </div>
+      </details>
+    </div>
   `;
 }
 </script>
