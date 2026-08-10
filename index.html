@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a2744">
+<meta name="description" content="מחשבון עבירות מהירות – סמל סעיף, קנס, ניקוד והליך">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9A%94%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a2744'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle'%3E%F0%9F%9A%94%3C/text%3E%3C/svg%3E">
+<title>מחשבון עבירות מהירות</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1a2744;
+    color: #1a2744;
+    font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: 0 0 48px 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Header */
+  header {
+    background: #1a2744;
+    padding: 28px 20px 20px;
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+  }
+
+  header p {
+    font-size: 13px;
+    color: #7a90b8;
+    margin-top: 5px;
+    letter-spacing: 0.05em;
+  }
+
+  /* White card container */
+  .card {
+    background: #ffffff;
+    border-radius: 18px;
+    margin: 0 12px;
+    padding: 20px 16px 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+
+  /* Section label */
+  .section-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a2744;
+    margin-bottom: 12px;
+    text-align: right;
+  }
+
+  /* Road grid */
+  .road-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-bottom: 22px;
+  }
+
+  .road-btn {
+    background: #ffffff;
+    border: 1.5px solid #d0d6e8;
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.13s;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-family: inherit;
+  }
+
+  .road-btn:active { transform: scale(0.97); }
+
+  .road-btn.selected {
+    background: #eef2ff;
+    border: 2px solid #1a2744;
+  }
+
+  .road-btn .road-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a2744;
+    line-height: 1.3;
+  }
+
+  .road-btn .road-speed {
+    font-size: 11px;
+    color: #7a90b8;
+  }
+
+  /* Speed input section */
+  .speed-section {
+    margin-bottom: 16px;
+  }
+
+  .speed-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a2744;
+    margin-bottom: 10px;
+    text-align: right;
+  }
+
+  .speed-input-wrap {
+    background: #ffffff;
+    border: 1.5px solid #d0d6e8;
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .speed-input-wrap input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 22px;
+    font-weight: 500;
+    color: #1a2744;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .speed-input-wrap input::placeholder {
+    color: #b0bcd4;
+    font-weight: 400;
+  }
+
+  .speed-input-wrap input:focus-visible {
+    outline: 2px solid #1a2744;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Calc button */
+  .calc-btn {
+    width: 100%;
+    background: #1a2744;
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    padding: 17px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.13s;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: 0.02em;
+    font-family: inherit;
+  }
+
+  .calc-btn:active { transform: scale(0.98); background: #0f1a35; }
+  .calc-btn:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+
+  /* Result: top stats bar */
+  #result { display: none; }
+
+  .stats-bar {
+    background: #1a2744;
+    border-radius: 14px;
+    padding: 14px 18px 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+    direction: ltr;
+  }
+
+  .stat-col {
+    text-align: center;
+    direction: rtl;
+  }
+
+  .stat-col .stat-label {
+    font-size: 11px;
+    color: #7a90b8;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .stat-col .stat-val {
+    font-size: 24px;
+    font-weight: 800;
+    display: block;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-col.col-excess .stat-val { color: #ffffff; font-size: 22px; }
+  .stat-col.col-section .stat-val { color: #f0c040; }
+  .stat-col.col-points .stat-val  { color: #f07840; }
+
+  /* Procedure pill */
+  .proc-card {
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid transparent;
+  }
+
+  .proc-card .proc-label-sm {
+    font-size: 12px;
+    font-weight: 700;
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .proc-card .proc-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: inherit;
+  }
+
+  .proc-card .proc-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* procedure colors */
+  .proc-bk    { background: #e8f7ef; border-color: #a0d8bc; color: #1a6e42; }
+  .proc-bk    .proc-dot { background: #1a7a4a; }
+
+  .proc-hzd   { background: #fff8e0; border-color: #f0c850; color: #7a5000; }
+  .proc-hzd   .proc-dot { background: #c89000; }
+
+  .proc-tltn  { background: #fff3e8; border-color: #f0a870; color: #8a3800; }
+  .proc-tltn  .proc-dot { background: #e07030; }
+
+  .proc-bkh   { background: #fde8e8; border-color: #e07070; color: #7a1010; }
+  .proc-bkh   .proc-dot { background: #c03030; }
+
+  /* No-fine note */
+  .no-fine-note {
+    background: #fff8f0;
+    border: 1.5px solid #f0c0a0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a3800;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  /* Summary row */
+  .summary-row {
+    background: #f5f7fb;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #5a6880;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  /* Warning note */
+  .warn-note {
+    background: #fff8e0;
+    border: 1px solid #f0c850;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #7a5800;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+
+  /* Posted input */
+  #postedContainer .speed-label { margin-top: 16px; }
+
+  /* msg */
+  .msg-card {
+    background: #f5f7fb;
+    border: 1.5px solid #d0d6e8;
+    border-radius: 12px;
+    padding: 18px 16px;
+    text-align: center;
+    color: #5a6880;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 16px 10px;
+    font-size: 11px;
+    color: #5a6e94;
+    letter-spacing: 0.02em;
+    line-height: 1.7;
+  }
+
+  footer a { color: #7a90b8; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .road-btn, .calc-btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>מחשבון עבירות מהירות</h1>
+  <p>סמל סעיף · קנס · ניקוד · הליך</p>
+</header>
+
+<div class="card">
+
+  <p class="section-label">סוג הכביש</p>
+  <div class="road-grid">
+    <button class="road-btn" data-road="urban50" onclick="selectRoad(this)">
+      <span class="road-name">עירוני</span>
+      <span class="road-speed">50 קמ"ש</span>
+    </button>
+    <button class="road-btn" data-road="urban426" onclick="selectRoad(this)">
+      <span class="road-name">עירוני תמרור 426</span>
+      <span class="road-speed">לפי תמרור</span>
+    </button>
+    <button class="road-btn" data-road="inter80" onclick="selectRoad(this)">
+      <span class="road-name">בין-עירוני</span>
+      <span class="road-speed">80 קמ"ש</span>
+    </button>
+    <button class="road-btn" data-road="inter90" onclick="selectRoad(this)">
+      <span class="road-name">בין-עירוני עם מפריד</span>
+      <span class="road-speed">90 קמ"ש</span>
+    </button>
+    <button class="road-btn" data-road="truck12" onclick="selectRoad(this)">
+      <span class="road-name">משאית מעל 12 טון (לא עירוני)</span>
+      <span class="road-speed">80 קמ"ש</span>
+    </button>
+    <button class="road-btn" data-road="highway" onclick="selectRoad(this)">
+      <span class="road-name">דרך מהירה תמרור 426</span>
+      <span class="road-speed">לפי תמרור</span>
+    </button>
+  </div>
+
+  <div id="postedContainer"></div>
+
+  <div class="speed-section">
+    <p class="speed-label">מהירות נמדדת (קמ"ש)</p>
+    <div class="speed-input-wrap">
+      <input type="number" id="speedInput" placeholder="הזן מהירות..." min="1" max="300" inputmode="numeric" pattern="[0-9]*" onkeyup="if(event.key==='Enter')calculate()">
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calculate()">חשב עבירה</button>
+
+  <div id="result"></div>
+
+</div>
+
+<footer>
+  © מדור תעבורה – מחלקת התנועה | כלי עזר בלבד<br>
+  <span style="font-size:10px;color:#4a5e84">מבוסס על חוברת נוסחי אישום (חנ"א) v14.77.178 · פברואר 2026<br>אינו תחליף לחוברת הרשמית או לייעוץ משפטי</span>
+</footer>
+
+<script>
+const NEEDS_POSTED = ['urban426', 'highway'];
+const LIMIT = { urban50:50, urban426:null, inter80:80, inter90:90, highway:null, truck12:80 };
+
+// [minExcess, maxExcess, section, fine_or_null, points, proc, subNotes]
+const TABLE = {
+  urban50: [
+    [1,  20, '6535', 250,  0,  'bk',   []],
+    [21, 30, '6536', 750,  8,  'bk',   []],
+    [31, 40, '7067', 1500, 10, 'bk',   []],
+    [41, 59, '7068', null, 10, 'hzd',  ['עד 59 קמ"ש מעל המותר – הזמנה רגילה']],
+    [60, 89, '7068', null, 10, 'tltn', ['60–89 קמ"ש מעל המותר – תלת"ן']],
+    [90,999, '7068', null, 10, 'bkh',  ['90 קמ"ש מעל המותר ומעלה – העברה לבוחנים (פ.ל)']],
+  ],
+  urban426: [
+    [1,  20, '6541', 250,  0,  'bk',   []],
+    [21, 30, '6542', 750,  8,  'bk',   []],
+    [31, 40, '7074', 1500, 10, 'bk',   []],
+    [41, 59, '7075', null, 10, 'hzd',  ['עד 59 קמ"ש מעל המותר – הזמנה רגילה']],
+    [60, 89, '7075', null, 10, 'tltn', ['60–89 קמ"ש מעל המותר – תלת"ן, ואם המהירות היא 200 קמ"ש ומעלה – העברה לבוחנים (פ.ל)']],
+    [90,999, '7075', null, 10, 'bkh',  ['90 קמ"ש מעל המותר או מהירות של 200 קמ"ש ומעלה – העברה לבוחנים (פ.ל)']],
+  ],
+  inter80: [
+    [1,  25, '6544', 250,  0,  'bk',   []],
+    [26, 40, '6545', 750,  8,  'bk',   []],
+    [41, 50, '7069', 1500, 10, 'bk',   []],
+    [51, 59, '7070', null, 10, 'hzd',  ['עד 59 קמ"ש מעל המותר – הזמנה רגילה']],
+    [60, 99, '7070', null, 10, 'tltn', ['60–99 קמ"ש מעל המותר – תלת"ן']],
+    [100,999,'7070', null, 10, 'bkh',  ['100 קמ"ש מעל המותר ומעלה – העברה לבוחנים (פ.ל)']],
+  ],
+  inter90: [
+    [1,  25, '6553', 250,  0,  'bk',   []],
+    [26, 40, '6554', 750,  8,  'bk',   []],
+    [41, 50, '7072', 1500, 10, 'bk',   []],
+    [51, 59, '7073', null, 10, 'hzd',  ['עד 59 קמ"ש מעל המותר – הזמנה רגילה']],
+    [60, 99, '7073', null, 10, 'tltn', ['60–99 קמ"ש מעל המותר – תלת"ן']],
+    [100,999,'7073', null, 10, 'bkh',  ['100 קמ"ש מעל המותר ומעלה – העברה לבוחנים (פ.ל)']],
+  ],
+  highway: [
+    [1,  25, '6556', 250,  0,  'bk',   []],
+    [26, 40, '6557', 750,  8,  'bk',   []],
+    [41, 50, '7077', 1500, 10, 'bk',   []],
+    [51, 59, '7078', null, 10, 'hzd',  ['עד 59 קמ"ש מעל המותר – הזמנה רגילה']],
+    [60, 99, '7078', null, 10, 'tltn', ['60–99 קמ"ש מעל המותר – תלת"ן, ואם המהירות היא 200 קמ"ש ומעלה – העברה לבוחנים (פ.ל)']],
+    [100,999,'7078', null, 10, 'bkh',  ['100 קמ"ש מעל המותר או מהירות של 200 קמ"ש ומעלה – העברה לבוחנים (פ.ל)']],
+  ],
+  truck12: [
+    [1,  25, '6578', 250,  0,  'bk',   ['חובה לציין בנסיבות המקרה את משקלו הכולל של הרכב']],
+    [26, 40, '6579', 750,  8,  'bk',   []],
+    [41, 50, '7079', 1500, 10, 'bk',   []],
+    [51, 59, '7080', null, 10, 'hzd',  ['עד 59 קמ"ש מעל המותר – הזמנה רגילה']],
+    [60, 99, '7080', null, 10, 'tltn', ['60–99 קמ"ש מעל המותר – תלת"ן']],
+    [100,999,'7080', null, 10, 'bkh',  ['100 קמ"ש מעל המותר ומעלה – העברה לבוחנים (פ.ל)']],
+  ],
+};
+
+const PROC_NAME = { bk:'ברירת קנס', hzd:'הזמנה לדין', tltn:'תלת"ן', bkh:'העברה לבוחנים (פ.ל)' };
+
+let selectedRoad = null;
+
+function selectRoad(btn) {
+  document.querySelectorAll('.road-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedRoad = btn.dataset.road;
+  document.getElementById('result').style.display = 'none';
+  renderPostedInput();
+}
+
+function renderPostedInput() {
+  const cont = document.getElementById('postedContainer');
+  cont.innerHTML = '';
+  if (!NEEDS_POSTED.includes(selectedRoad)) return;
+  cont.innerHTML = `
+    <p class="speed-label" style="margin-top:0;margin-bottom:10px">מהירות מותרת לפי תמרור 426 (קמ"ש)</p>
+    <div class="speed-input-wrap" style="margin-bottom:16px">
+      <input type="number" id="postedInput" placeholder="הזן מהירות תמרור..." min="10" max="120" inputmode="numeric" pattern="[0-9]*">
+    </div>
+  `;
+}
+
+function calculate() {
+  const res = document.getElementById('result');
+
+  if (!selectedRoad) {
+    res.style.display = 'block';
+    res.innerHTML = `<div class="msg-card">יש לבחור סוג כביש תחילה</div>`;
+    return;
+  }
+
+  const speedVal = parseInt(document.getElementById('speedInput').value);
+  if (!speedVal || speedVal <= 0) {
+    res.style.display = 'block';
+    res.innerHTML = `<div class="msg-card">יש להזין מהירות נמדדת</div>`;
+    return;
+  }
+
+  let limit = LIMIT[selectedRoad];
+  if (NEEDS_POSTED.includes(selectedRoad)) {
+    const pel = document.getElementById('postedInput');
+    if (!pel || !pel.value) {
+      res.style.display = 'block';
+      res.innerHTML = `<div class="msg-card">יש להזין את מהירות תמרור 426</div>`;
+      return;
+    }
+    limit = parseInt(pel.value);
+    if (!limit || limit <= 0) {
+      res.style.display = 'block';
+      res.innerHTML = `<div class="msg-card">מהירות תמרור אינה תקינה</div>`;
+      return;
+    }
+  }
+
+  const excess = speedVal - limit;
+
+  if (excess <= 0) {
+    res.style.display = 'block';
+    res.innerHTML = `<div class="msg-card">✅ ${speedVal} קמ"ש – אינה חורגת מהמותר (${limit} קמ"ש)</div>`;
+    return;
+  }
+
+  const bands = TABLE[selectedRoad];
+  let band = null;
+  for (const b of bands) {
+    if (excess >= b[0] && excess <= b[1]) { band = b; break; }
+  }
+
+  if (!band) {
+    res.style.display = 'block';
+    res.innerHTML = `<div class="msg-card">לא נמצא טווח מתאים</div>`;
+    return;
+  }
+
+  const [minE, maxE, section, fine, points, proc, subNotes] = band;
+
+  const procClass = `proc-${proc}`;
+
+  const noFineHtml = (proc !== 'bk')
+    ? `<div class="no-fine-note">אין ברירת קנס – נדרש הזמנה לדין / משפט</div>`
+    : '';
+
+  const fineHtml = (proc === 'bk' && fine !== null)
+    ? `<div class="no-fine-note" style="background:#e8f7ef;border-color:#a0d8bc;color:#1a5e30">ברירת קנס: ₪${fine.toLocaleString('he-IL')}</div>`
+    : '';
+
+  const warnHtml = subNotes && subNotes.length
+    ? `<div class="warn-note">⚠️ ${subNotes.join('<br>⚠️ ')}</div>`
+    : '';
+
+  res.style.display = 'block';
+  res.innerHTML = `
+    <div class="stats-bar">
+      <div class="stat-col col-points">
+        <span class="stat-label">ניקוד</span>
+        <span class="stat-val">${points}</span>
+      </div>
+      <div class="stat-col col-section">
+        <span class="stat-label">סמל סעיף</span>
+        <span class="stat-val">${section}</span>
+      </div>
+      <div class="stat-col col-excess">
+        <span class="stat-label">חריגה</span>
+        <span class="stat-val">+${excess} קמ"ש</span>
+      </div>
+    </div>
+
+    <div class="proc-card ${procClass}">
+      <div>
+        <div class="proc-label-sm">הליך</div>
+        <div class="proc-name">${PROC_NAME[proc]}</div>
+      </div>
+      <div class="proc-dot"></div>
+    </div>
+
+    ${noFineHtml}${fineHtml}
+
+    <div class="summary-row">
+      מהירות מותרת: ${limit} קמ"ש &nbsp;|&nbsp; נמדד: ${speedVal} קמ"ש
+    </div>
+
+    ${warnHtml}
+  `;
+}
+</script>
+</body>
+</html>
