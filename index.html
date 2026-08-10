@@ -631,10 +631,36 @@ const SCENARIOS = [
   { road: 'nonurban', example: '162 במקום 100', excess: 62, severity: 'גבוהה מאוד',
     punishment: 'מספר חודשי פסילה, קנס ותנאי',
     deal: 'הסדר סגור או טווח ענישה מוסכם; במקרים ישנים בפסיקה אושר גם הסדר של שישה חודשי פסילה' },
-  { road: 'nonurban', example: '170 במקום 90', excess: 80, severity: 'קיצונית',
-    punishment: 'פסילה ממושכת, קנס, תנאי והתחייבות; אפשרות למאסר מותנה בנסיבות מחמירות',
-    deal: 'מיקוד בצמצום הפסילה, מניעת מאסר והסרת סעיפים נלווים; קנס בלבד אינו יעד רגיל' },
+
+  // מ-170 קמ"ש ומעלה ההערכה תלויה במהירות המוחלטת ובמהירות המותרת (110 או 90) גם יחד —
+  // לכן כל שורה מיוצגת פעמיים: פעם ביחס לכביש שמותר בו 110, ופעם ביחס לכביש שמותר בו 90.
+  { road: 'nonurban', absSpeed: 170, limitCtx: 110, example: '170 קמ"ש (מותר 110)', excess: 60, severity: 'גבוהה מאוד עד קיצונית',
+    punishment: 'פסילה בפועל של שבועות עד מספר חודשים, קנס ופסילה מותנית; העבר והדרך משפיעים מאוד',
+    deal: 'תקופת פסילה מוסכמת וניכוי 30 ימי הפסילה המנהלית; תיקון מהירות רק על בסיס קושי ראייתי ממשי' },
+  { road: 'nonurban', absSpeed: 170, limitCtx: 90, example: '170 קמ"ש (מותר 90)', excess: 80, severity: 'גבוהה מאוד עד קיצונית',
+    punishment: 'פסילה בפועל של שבועות עד מספר חודשים, קנס ופסילה מותנית; העבר והדרך משפיעים מאוד',
+    deal: 'תקופת פסילה מוסכמת וניכוי 30 ימי הפסילה המנהלית; תיקון מהירות רק על בסיס קושי ראייתי ממשי' },
+  { road: 'nonurban', absSpeed: 180, limitCtx: 110, example: '180 קמ"ש (מותר 110)', excess: 70, severity: 'קיצונית',
+    punishment: 'מספר חודשי פסילה בפועל, קנס משמעותי, פסילה מותנית ולעיתים התחייבות או מאסר מותנה',
+    deal: 'הסדר סגור או טווח ענישה; היעד המעשי הוא הגבלת משך הפסילה ומניעת רכיב מאסר, לא קנס בלבד' },
+  { road: 'nonurban', absSpeed: 180, limitCtx: 90, example: '180 קמ"ש (מותר 90)', excess: 90, severity: 'קיצונית',
+    punishment: 'מספר חודשי פסילה בפועל, קנס משמעותי, פסילה מותנית ולעיתים התחייבות או מאסר מותנה',
+    deal: 'הסדר סגור או טווח ענישה; היעד המעשי הוא הגבלת משך הפסילה ומניעת רכיב מאסר, לא קנס בלבד' },
+  { road: 'nonurban', absSpeed: 190, limitCtx: 110, example: '190 קמ"ש (מותר 110)', excess: 80, severity: 'קיצונית מאוד',
+    punishment: 'פסילה ממושכת, קנס, תנאי; עבר מכביד או נסיבות מסוכנות עשויים להביא גם למאסר מותנה ואף לבקשת מאסר',
+    deal: 'תקרת פסילה מוסכמת ומניעת מאסר בפועל; נדרש בסיס ראייתי של ממש לכל הפחתה במהירות או בסעיף' },
+  { road: 'nonurban', absSpeed: 190, limitCtx: 90, example: '190 קמ"ש (מותר 90)', excess: 100, severity: 'קיצונית מאוד',
+    punishment: 'פסילה ממושכת, קנס, תנאי; עבר מכביד או נסיבות מסוכנות עשויים להביא גם למאסר מותנה ואף לבקשת מאסר',
+    deal: 'תקרת פסילה מוסכמת ומניעת מאסר בפועל; נדרש בסיס ראייתי של ממש לכל הפחתה במהירות או בסעיף' },
+  { road: 'nonurban', absSpeed: 200, limitCtx: 110, example: '200 קמ"ש (מותר 110)', excess: 90, severity: 'חריגה יוצאת דופן',
+    punishment: 'חשיפה לפסילה של חודשים רבים ואף שנים ולרכיב מאסר. ברע"פ 113/15, ב-200 במקום 110 ועם עבר מכביד, נגזרו 60 ימי מאסר בפועל, 36 חודשי פסילה, 3,000 ₪ קנס, מאסר ופסילה מותנים',
+    deal: 'הסדר המתמקד במניעת מאסר ממשי, קביעת פסילה משמעותית אך תחומה וניכוי הפסילה המנהלית; קנס בלבד אינו יעד סביר' },
+  { road: 'nonurban', absSpeed: 200, limitCtx: 90, example: '200 קמ"ש (מותר 90)', excess: 110, severity: 'חריגה יוצאת דופן',
+    punishment: 'חשיפה לפסילה של חודשים רבים ואף שנים ולרכיב מאסר. ברע"פ 113/15, ב-200 במקום 110 ועם עבר מכביד, נגזרו 60 ימי מאסר בפועל, 36 חודשי פסילה, 3,000 ₪ קנס, מאסר ופסילה מותנים',
+    deal: 'הסדר המתמקד במניעת מאסר ממשי, קביעת פסילה משמעותית אך תחומה וניכוי הפסילה המנהלית; קנס בלבד אינו יעד סביר' },
 ];
+
+const SENTENCE_EXTREME_NOTE = 'הערכת 170–200 קמ"ש תלויה במהירות המותרת ולא רק במהירות המוחלטת — הדוגמה שלהלן מציגה את הכביש הקרוב יותר (110 או 90 קמ"ש מותר). הטווחים מתייחסים לעבירת מהירות בלבד, ללא תאונה, מרדף, שכרות, נהיגה בפסילה או סיכון קונקרטי; נסיבות כאלה עשויות לשנות את סעיפי האישום ולהחמיר מאוד את הענישה.';
 
 const MITIGATING = [
   'עבר נקי או ותק נהיגה משמעותי',
@@ -671,10 +697,11 @@ const SENTENCE_CASES = [
   ['תת"ע 8963/05/17', 'חריגה מעל 70 קמ"ש — מתחם 1.5–5 שנות פסילה'],
   ['ע"פ 2842/10 קלדרון', 'עבר תעבורתי והקלה קודמת שלא הרתיעה עשויים לפעול לחומרה', 'https://www.nevo.co.il/psika_html/elyon/10028420-h02.htm'],
   ['ע"פ 2247/10 ימיני', 'כיבוד הסדרי טיעון וגבולות ההתערבות — נסיבותיו חמורות בהרבה מעבירת מהירות רגילה', 'https://www.nevo.co.il/psika_html/elyon/10022470-e06.htm'],
+  ['רע"פ 113/15 אעלמי', '200 קמ"ש במקום 110 (לאחר הפחתה) עם עבר מכביד — 60 ימי מאסר בפועל, 36 חודשי פסילה (בניכוי 30 ימי פסילה מנהלית), קנס 3,000 ₪, 7 חודשי מאסר על תנאי ו-6 חודשי פסילה על תנאי', 'https://www.nevo.co.il/psika_html/elyon/15001130-i02.htm'],
 ];
 
 let selectedRoad = null;
-let lastCalc = null;   // { road, excess, speedVal }
+let lastCalc = null;   // { road, excess, speedVal, limit }
 let aggravated = false;
 
 function selectRoad(btn) {
@@ -751,7 +778,7 @@ function calculate() {
 
   const [minE, maxE, section, fine, points, proc, subNotes] = band;
 
-  lastCalc = { road: selectedRoad, excess, speedVal };
+  lastCalc = { road: selectedRoad, excess, speedVal, limit };
   aggravated = false;
 
   const procClass = `proc-${proc}`;
@@ -815,13 +842,16 @@ function findSentenceBand(road, excess) {
   return null;
 }
 
-function findNearestScenario(road, excess) {
+function findNearestScenario(road, excess, speedVal, limit) {
   const cat = URBAN_ROADS.includes(road) ? 'urban' : 'nonurban';
   const pool = SCENARIOS.filter(s => s.road === cat);
   if (!pool.length) return null;
-  return pool.reduce((best, s) =>
-    Math.abs(s.excess - excess) < Math.abs(best.excess - excess) ? s : best
-  );
+  // תרחישים המעוגנים במהירות מוחלטת (170+) נבחרים לפי קרבה למהירות הנמדדת
+  // ולמהירות המותרת (110/90); שאר התרחישים נבחרים לפי קרבת החריגה בקמ"ש בלבד.
+  const dist = (s) => s.absSpeed
+    ? Math.abs(speedVal - s.absSpeed) * 3 + Math.abs((limit || 0) - s.limitCtx)
+    : Math.abs(s.excess - excess);
+  return pool.reduce((best, s) => dist(s) < dist(best) ? s : best);
 }
 
 function fmtMonths(min, max) {
@@ -842,7 +872,7 @@ function renderSentenceCard() {
   const box = document.getElementById('sentenceBox');
   if (!box || !lastCalc) return;
 
-  const { road, excess, speedVal } = lastCalc;
+  const { road, excess, speedVal, limit } = lastCalc;
   const isExtreme = excess >= 100 || speedVal >= 200;
   const mult = aggravated ? 2 : 1;
 
@@ -864,7 +894,7 @@ function renderSentenceCard() {
     }
   }
 
-  const scenario = findNearestScenario(road, excess);
+  const scenario = findNearestScenario(road, excess, speedVal, limit);
   const scenarioHtml = scenario ? `
     <div class="sentence-scenario">
       <span class="scenario-tag">דוגמה קרובה מטבלת הסדרים · ${scenario.severity}</span>
@@ -872,6 +902,7 @@ function renderSentenceCard() {
       ענישה מעשית אפשרית: ${scenario.punishment}<br>
       כיוון להסדר: ${scenario.deal}
     </div>
+    ${scenario.absSpeed ? `<div class="sentence-disclaimer" style="margin-top:-4px">${SENTENCE_EXTREME_NOTE}</div>` : ''}
   ` : '';
 
   box.innerHTML = `
